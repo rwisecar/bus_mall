@@ -2,10 +2,12 @@ header {
   text-align: center;
 }
 
-#pictureHolder {
-  display: none;
-}
+
 
 img {
-  width: 300px;
+  height: 10%;
+  padding: 0 4% 0 4%;
+  margin-top: 0;
+
+
 }

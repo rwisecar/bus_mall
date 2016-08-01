@@ -77,7 +77,8 @@ displayImages();
 
 function handleNewRound(event){
   event.preventDefault();
-  
+
+  alert('Click is working');
 }
 
 //EVENT LISTENER
