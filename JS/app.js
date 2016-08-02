@@ -10,8 +10,6 @@ var imageDisplay = document.getElementById('imageDisplay');
 function ImageFinder(name, filePath, displayTally, voteTally){
   this.name = name;
   this.filePath = filePath;
-  this.displayTally = displayTally;
-  this.voteTally = voteTally;
   this.displayCount = 0;
   this.voteCount = 0;
   allImages.push(this);
@@ -46,9 +44,9 @@ function randomNumberGenerator (){
   var randomNumber = Math.floor((Math.random() * allImages.length) + 1);
   var randomNumber1 = Math.floor((Math.random() * allImages.length) + 1);
   var randomNumber2 = Math.floor((Math.random() * allImages.length) + 1);
-  // console.log(randomNumber);
-  // console.log(randomNumber1);
-  // console.log(randomNumber2);
+  console.log(randomNumber);
+  console.log(randomNumber1);
+  console.log(randomNumber2);
   //MAKING SURE NO TWO NUMBERS ARE IDENTICAL. IF IDENTICAL, LOOP AGAIN. OTHERWISE, PUSH TO ARRAY
   if (randomNumber !== randomNumber1 && randomNumber !== randomNumber2 && randomNumber1 !== randomNumber2){
     randomNumberArray.push(randomNumber, randomNumber1, randomNumber2);
@@ -65,10 +63,14 @@ randomNumberGenerator();
 function displayImages(){
   var leftImage = document.getElementById('left');
   leftImage.src = allImages[randomNumberArray[0]].filePath;
+  // console.log('this is', allImages[randomNumberArray[0]].filePath);
+  allImages[randomNumberArray[0]].displayCount += 1;
   var centerImage = document.getElementById('center');
   centerImage.src = allImages[randomNumberArray[1]].filePath;
+  allImages[randomNumberArray[1]].displayCount += 1;
   var rightImage = document.getElementById('right');
   rightImage.src = allImages[randomNumberArray[2]].filePath;
+  allImages[randomNumberArray[2]].displayCount += 1;
 };
 
 displayImages();
@@ -82,6 +84,8 @@ function handleNewRound(event){
 
   var clickedObject = event.target;
   console.log(clickedObject);
+  this.voteCount += 1;
+
 }
 
 //EVENT LISTENER
