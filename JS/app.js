@@ -80,11 +80,22 @@ displayImages();
 function handleNewRound(event){
   event.preventDefault();
 
-  alert('Click is working');
-
   var clickedObject = event.target;
   console.log(clickedObject);
-  this.voteCount += 1;
+  console.log(event.target.id);
+
+  if (event.target.id === 'left') {
+    allImages[randomNumberArray[0]].voteCount += 1;
+    console.log(allImages[randomNumberArray[0]].name + ' has ' + allImages[randomNumberArray[0]].voteCount + ' votes ');
+  } else if (event.target.id === 'center') {
+    allImages[randomNumberArray[1]].voteCount += 1;
+    console.log(allImages[randomNumberArray[1]].name + ' has ' + allImages[randomNumberArray[1]].voteCount + ' votes ');
+  } else if (event.target.id === 'right'){
+    allImages[randomNumberArray[2]].voteCount += 1;
+    console.log(allImages[randomNumberArray[2]].name + ' has  ' + allImages[randomNumberArray[2]].voteCount + ' votes ');
+  } else {
+    alert('Pick an image, dummy!');
+  };
 
 }
 
