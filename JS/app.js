@@ -94,11 +94,9 @@ function reloadImages() {
   var randomNumber2 = Math.floor(Math.random() * allImages.length);
 
   //Use the indexOf method to determine whether there are any duplicates
-
   var comparison = lastNumberArray.indexOf(randomNumber);
   var comparison1 = lastNumberArray.indexOf(randomNumber1);
   var comparison2 = lastNumberArray.indexOf(randomNumber2);
-
   if (comparison === -1 && comparison1 === -1 && comparison2 === -1){
     randomNumberArray = [];
     randomNumberArray.push(randomNumber, randomNumber1, randomNumber2);
@@ -121,19 +119,25 @@ function handleNewRound(event){
 
   if (event.target.id === 'left') {
     allImages[randomNumberArray[0]].voteCount += 1;
-    console.log(allImages[randomNumberArray[0]].name + ' has ' + allImages[randomNumberArray[0]].voteCount + ' votes ');
+    surveyLength += 1;
   } else if (event.target.id === 'center') {
     allImages[randomNumberArray[1]].voteCount += 1;
-    console.log(allImages[randomNumberArray[1]].name + ' has ' + allImages[randomNumberArray[1]].voteCount + ' votes ');
+    surveyLength += 1;
   } else if (event.target.id === 'right'){
     allImages[randomNumberArray[2]].voteCount += 1;
-    console.log(allImages[randomNumberArray[2]].name + ' has  ' + allImages[randomNumberArray[2]].voteCount + ' votes ');
+    surveyLength += 1;
   } else {
     alert('Pick an image, dummy!');
   };
   reloadImages();
   displayImages();
+
+//Limiting Survey to 25 rounds
+  if (surveyLength === 3) {
+    imageDisplay.removeEventListener('click', handleNewRound);
+  }
 };
+
 
 //RUN THE FUNCTIONS TO FILL THE TABLE ON LOAD
 
