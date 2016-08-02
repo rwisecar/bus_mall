@@ -19,3 +19,7 @@ As a Survey Taker, I want to:
 * Get an alert message when I click near an image, instead of on that image, so I know whether my votes are being accurately tallied.
 * Know when the survey is complete, so I don't get stuck clicking images forever/
 * See the total test results, because I am probably curious about how my personal preferences compare to the preferences of others.  
+
+##README
+
+I worked closely with Lee, Adrian, Sera, and Britt on this project, particularly on getting the display count and the vote count to start adding up.

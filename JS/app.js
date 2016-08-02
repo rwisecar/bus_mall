@@ -7,7 +7,7 @@ var randomNumberArray = [];
 var imageDisplay = document.getElementById('imageDisplay');
 
 //OBJECT CONSTRUCTOR
-function ImageFinder(name, filePath, displayTally, voteTally){
+function ImageFinder(name, filePath, displayCount, voteCount){
   this.name = name;
   this.filePath = filePath;
   this.displayCount = 0;
@@ -29,7 +29,7 @@ var dragon = new ImageFinder('Dragon', 'img/dragon.jpg', 0, 0);
 var pen = new ImageFinder('Pen', 'img/pen.jpg', 0, 0);
 var petSweep = new ImageFinder('Pet Sweep', 'img/pet-sweep.jpg', 0, 0);
 var scissors = new ImageFinder('Scissors', 'img/scissors.jpg', 0, 0);
-var sweep = new ImageFinder('Sweep', 'img/sweep.png', 0, 0);
+var sweep = new ImageFinder('Sweep', 'img/sweep.jpg', 0, 0);
 var shark = new ImageFinder('Shark', 'img/shark.jpg', 0, 0);
 var tauntaun = new ImageFinder('Tauntaun', 'img/tauntaun.jpg', 0, 0);
 var unicorn = new ImageFinder('Unicorn', 'img/unicorn.jpg', 0, 0);
@@ -37,13 +37,14 @@ var usb = new ImageFinder('USB', 'img/usb.gif', 0, 0);
 var waterCan = new ImageFinder('Water Can', 'img/water-can.jpg', 0, 0);
 var wineGlass = new ImageFinder('Wine Glass', 'img/wine-glass.jpg', 0, 0);
 
+
 //RANDOM NUMBER GENERATOR
 
 function randomNumberGenerator (){
   //CREATING 3 RANDOM NUMBERS
-  var randomNumber = Math.floor((Math.random() * allImages.length) + 1);
-  var randomNumber1 = Math.floor((Math.random() * allImages.length) + 1);
-  var randomNumber2 = Math.floor((Math.random() * allImages.length) + 1);
+  var randomNumber = Math.floor(Math.random() * allImages.length);
+  var randomNumber1 = Math.floor(Math.random() * allImages.length);
+  var randomNumber2 = Math.floor(Math.random() * allImages.length);
   console.log(randomNumber);
   console.log(randomNumber1);
   console.log(randomNumber2);
@@ -56,10 +57,10 @@ function randomNumberGenerator (){
     // console.log('Duplicate Found');
   };
 };
-randomNumberGenerator();
 
 
-//FUNCTION TO FILL EMPTY <img> HTML ELEMENTS WITH RANDOMLY GENERATED IMAGES
+
+//FUNCTION TO FILL EMPTY <img> HTML ELEMENTS WITH RANDOMLY GENERATED IMAGES FROM THE IMAGE ARRAY
 function displayImages(){
   var leftImage = document.getElementById('left');
   leftImage.src = allImages[randomNumberArray[0]].filePath;
@@ -73,17 +74,24 @@ function displayImages(){
   allImages[randomNumberArray[2]].displayCount += 1;
 };
 
+//RUN THE FUNCTIONS TO FILL THE TABLE ON LOAD
+randomNumberGenerator();
 displayImages();
-//EVENT HANDLER
 
+
+//EVENT HANDLER
 function handleNewRound(event){
   event.preventDefault();
+
+  randomNumberGenerator();
+  displayImages();
 
   var clickedObject = event.target;
   console.log(clickedObject);
   console.log(event.target.id);
 
-//Conditional to tally a vote for the clicked images
+//Conditional to tally a vote for the clicked images, and alert user if they don't click on an image. Then, clear the images, run the random number generator, and display 3 new images
+
   if (event.target.id === 'left') {
     allImages[randomNumberArray[0]].voteCount += 1;
     console.log(allImages[randomNumberArray[0]].name + ' has ' + allImages[randomNumberArray[0]].voteCount + ' votes ');
@@ -96,10 +104,9 @@ function handleNewRound(event){
   } else {
     alert('Pick an image, dummy!');
   };
-
-  randomNumberGenerator();
-  displayImages();
 };
+
+
 
 //EVENT LISTENER
 
