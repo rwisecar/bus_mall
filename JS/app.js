@@ -74,7 +74,6 @@ function displayImages(){
 };
 
 displayImages();
-
 //EVENT HANDLER
 
 function handleNewRound(event){
@@ -84,6 +83,7 @@ function handleNewRound(event){
   console.log(clickedObject);
   console.log(event.target.id);
 
+//Conditional to tally a vote for the clicked images
   if (event.target.id === 'left') {
     allImages[randomNumberArray[0]].voteCount += 1;
     console.log(allImages[randomNumberArray[0]].name + ' has ' + allImages[randomNumberArray[0]].voteCount + ' votes ');
@@ -97,7 +97,9 @@ function handleNewRound(event){
     alert('Pick an image, dummy!');
   };
 
-}
+  randomNumberGenerator();
+  displayImages();
+};
 
 //EVENT LISTENER
 
