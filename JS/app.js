@@ -79,6 +79,9 @@ function handleNewRound(event){
   event.preventDefault();
 
   alert('Click is working');
+
+  var clickedObject = event.target;
+  console.log(clickedObject);
 }
 
 //EVENT LISTENER
