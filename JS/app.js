@@ -7,10 +7,12 @@ var randomNumberArray = [];
 var lastNumberArray = [];
 var surveyLength = 0;
 var imageDisplay = document.getElementById('imageDisplay');
+var names = [];
+var votes = [];
 
 //object constructor
 
-function ImageFinder(name, filePath, displayCount, voteCount){
+function ImageFinder(name, filePath){
   this.name = name;
   this.filePath = filePath;
   this.displayCount = 0;
@@ -49,9 +51,6 @@ function randomNumberGenerator (){
   var randomNumber = Math.floor(Math.random() * allImages.length);
   var randomNumber1 = Math.floor(Math.random() * allImages.length);
   var randomNumber2 = Math.floor(Math.random() * allImages.length);
-  console.log(randomNumber);
-  console.log(randomNumber1);
-  console.log(randomNumber2);
   //make sure no two numbers are identical. If unique, push to array. Otherwise, loop again.
   if (randomNumber !== randomNumber1 && randomNumber !== randomNumber2
     && randomNumber1 !== randomNumber2){
@@ -81,7 +80,7 @@ function displayImages(){
 
 function reloadImages() {
   //Clearing array that will hold previous round of random numbers
-  lastNumberArray = [];
+  // lastNumberArray = [];
 
   //Pushing last round of numbers into lastNumberArray
   lastNumberArray.push(randomNumberArray[0]);
@@ -97,13 +96,13 @@ function reloadImages() {
   var comparison = lastNumberArray.indexOf(randomNumber);
   var comparison1 = lastNumberArray.indexOf(randomNumber1);
   var comparison2 = lastNumberArray.indexOf(randomNumber2);
-  if (comparison === -1 && comparison1 === -1 && comparison2 === -1){
+  if (randomNumber !== randomNumber1 && randomNumber !== randomNumber2 && randomNumber1 !== randomNumber2 && comparison === -1 && comparison1 === -1 && comparison2 === -1){
     randomNumberArray = [];
     randomNumberArray.push(randomNumber, randomNumber1, randomNumber2);
-    console.log('This is random number array', randomNumberArray);
-    console.log('This is last number array', lastNumberArray);
+    console.log('last number array', lastNumberArray);
+    console.log('new random number array', randomNumberArray);
   } else {
-    reloadImages();
+    // reloadImages();
   };
 };
 
@@ -133,15 +132,26 @@ function handleNewRound(event){
   displayImages();
 
 //Limiting Survey to 25 rounds
-  if (surveyLength === 3) {
+  if (surveyLength === 10) {
     imageDisplay.removeEventListener('click', handleNewRound);
   }
-};
 
+
+  function updateChartArrays() {
+    for (var i = 0; i < allImages.length; i++) {
+      votes[i] = allImages[i].voteCount;
+      names[i] = allImages[i].name;
+    };
+  };
+  updateChartArrays();
+};
 
 //RUN THE FUNCTIONS TO FILL THE TABLE ON LOAD
 
+randomNumberGenerator();
 displayImages();
+
+//Chart Drawing
 
 
 
