@@ -1,6 +1,6 @@
 'use strict';
 
-//GLOBAL VARIABLES
+//global variables
 
 var allImages = [];
 var randomNumberArray = [];
@@ -8,7 +8,8 @@ var lastNumberArray = [];
 var surveyLength = 0;
 var imageDisplay = document.getElementById('imageDisplay');
 
-//OBJECT CONSTRUCTOR
+//object constructor
+
 function ImageFinder(name, filePath, displayCount, voteCount){
   this.name = name;
   this.filePath = filePath;
@@ -17,7 +18,8 @@ function ImageFinder(name, filePath, displayCount, voteCount){
   allImages.push(this);
 }
 
-// OBJECT INSTANCES CREATING OBJECTS FOR EACH IMAGE FILE
+// object instances
+
 var bag = new ImageFinder('Bag', 'img/bag.jpg');
 var banana = new ImageFinder('Banana', 'img/banana.jpg');
 var bathroom = new ImageFinder('Bathroom', 'img/bathroom.jpg');
@@ -40,29 +42,27 @@ var waterCan = new ImageFinder('Water Can', 'img/water-can.jpg');
 var wineGlass = new ImageFinder('Wine Glass', 'img/wine-glass.jpg');
 
 
-//RANDOM NUMBER GENERATOR
+//random number generator to pick images from the array
 
 function randomNumberGenerator (){
-  //CREATING 3 RANDOM NUMBERS
+  //Create 3 random numbers
   var randomNumber = Math.floor(Math.random() * allImages.length);
   var randomNumber1 = Math.floor(Math.random() * allImages.length);
   var randomNumber2 = Math.floor(Math.random() * allImages.length);
   console.log(randomNumber);
   console.log(randomNumber1);
   console.log(randomNumber2);
-  //MAKING SURE NO TWO NUMBERS ARE IDENTICAL. IF IDENTICAL, LOOP AGAIN. OTHERWISE, PUSH TO ARRAY
+  //make sure no two numbers are identical. If unique, push to array. Otherwise, loop again.
   if (randomNumber !== randomNumber1 && randomNumber !== randomNumber2
     && randomNumber1 !== randomNumber2){
     randomNumberArray = [];
     randomNumberArray.push(randomNumber, randomNumber1, randomNumber2);
-    // console.log('Three unique numbers');
   } else {
     randomNumberGenerator();
-    // console.log('Duplicate Found');
   };
 };
 
-//FUNCTION TO FILL EMPTY <img> HTML ELEMENTS WITH RANDOMLY GENERATED IMAGES FROM THE IMAGE ARRAY
+//function to fill empty HTML <img> elements with image file paths picked through the random number generator
 function displayImages(){
   randomNumberGenerator();
   var leftImage = document.getElementById('left');
@@ -77,17 +77,41 @@ function displayImages(){
   allImages[randomNumberArray[2]].displayCount += 1;
 };
 
-//RUN THE FUNCTIONS TO FILL THE TABLE ON LOAD
-randomNumberGenerator();
-displayImages();
+// Function to ensure that the next series of random numbers does not duplicate the previous series of random numbers
 
+function reloadImages() {
+  //Clearing array that will hold previous round of random numbers
+  lastNumberArray = [];
+
+  //Pushing last round of numbers into lastNumberArray
+  lastNumberArray.push(randomNumberArray[0]);
+  lastNumberArray.push(randomNumberArray[1]);
+  lastNumberArray.push(randomNumberArray[2]);
+
+  //Re-assigning the variables for each picture
+  var randomNumber = Math.floor(Math.random() * allImages.length);
+  var randomNumber1 = Math.floor(Math.random() * allImages.length);
+  var randomNumber2 = Math.floor(Math.random() * allImages.length);
+
+  //Use the indexOf method to determine whether there are any duplicates
+
+  var comparison = lastNumberArray.indexOf(randomNumber);
+  var comparison1 = lastNumberArray.indexOf(randomNumber1);
+  var comparison2 = lastNumberArray.indexOf(randomNumber2);
+
+  if (comparison === -1 && comparison1 === -1 && comparison2 === -1){
+    randomNumberArray = [];
+    randomNumberArray.push(randomNumber, randomNumber1, randomNumber2);
+    console.log('This is random number array', randomNumberArray);
+    console.log('This is last number array', lastNumberArray);
+  } else {
+    reloadImages();
+  };
+};
 
 //EVENT HANDLER
 function handleNewRound(event){
   event.preventDefault();
-
-  randomNumberGenerator();
-  displayImages();
 
   var clickedObject = event.target;
   console.log(clickedObject);
@@ -107,7 +131,13 @@ function handleNewRound(event){
   } else {
     alert('Pick an image, dummy!');
   };
+  reloadImages();
+  displayImages();
 };
+
+//RUN THE FUNCTIONS TO FILL THE TABLE ON LOAD
+
+displayImages();
 
 
 
