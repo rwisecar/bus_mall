@@ -14,6 +14,7 @@ var imageChart;
 var chartDrawn;
 var allImagesArrayStringified;
 
+
 //arrays
 //for all product images
 var allImages = [];
@@ -143,7 +144,8 @@ var data = {
         'darkgray',
         'burlywood',
         'lightblue',
-        'navy',
+        'navy'
+
       ],
       hoverBackgroundColor: [
         'purple',
