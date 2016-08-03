@@ -10,6 +10,8 @@ var totalClicksAllowed = 25;
 var imageDisplay = document.getElementById('imageDisplay');
 var seeResults = document.getElementById('seeResults');
 var runAgain = document.getElementById('runAgain');
+var imageChart;
+var chartDrawn;
 
 //arrays
 //for all product images
@@ -114,6 +116,21 @@ var data = {
       label: 'Survey Results',
       data: votes, // array of votes declared above
       backgroundColor: [
+        'bisque',
+        'darkgray',
+        'burlywood',
+        'lightblue',
+        'navy',
+        'bisque',
+        'darkgray',
+        'burlywood',
+        'lightblue',
+        'navy',
+        'bisque',
+        'darkgray',
+        'burlywood',
+        'lightblue',
+        'navy',
         'bisque',
         'darkgray',
         'burlywood',
