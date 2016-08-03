@@ -63,7 +63,7 @@ function createNewObjects(){
 if (localStorage.allImagesArrayStringified) {
   console.log('Local Storage has content');
   var storedData = JSON.parse(localStorage.allImagesArrayStringified);
-  allImages.push(storedData);
+  allImages = storedData;
 
 } else {
   console.log('Local Storage is empty');
@@ -195,10 +195,10 @@ function tallyVote(thisProduct) {
     }
   }
 }
-
-function hideChart() {
-  document.getElementById('chartHolder').hidden = true;
-};
+//
+// function hideChart() {
+//   document.getElementById('chartHolder').hidden = true;
+// };
 
 
 // //EVENT HANDLER
@@ -237,4 +237,4 @@ imageDisplay.addEventListener('click', handleNewRound);
 
 seeResults.addEventListener('click', drawChart);
 
-runAgain.addEventListener('click', hideChart, displayImages);
+runAgain.addEventListener('click', displayImages);
