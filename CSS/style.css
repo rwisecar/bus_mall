@@ -6,9 +6,10 @@ header {
   position: relative;
 }
 img {
-  
+
   padding: 2% 4%;
   position: relative;
   top: 0;
+  outline: 1px dashed orange;
 
 }

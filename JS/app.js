@@ -22,6 +22,7 @@ var lastNumberArray = [100, 150, 250];
 var names = [];
 var votes = [];
 
+//IF LOCAL STORAGE EXISTS, ASSIGN DATA TO allImages array, else run constructor function
 //object constructor
 function ImageFinder(name, filePath){
   this.name = name;
@@ -105,6 +106,7 @@ function displayImages (){
   randomNumberArray = [];
   seeResults.style.display = 'none';
 };
+
 //Chart Drawing-- inspired by Sam's lecture and assigned readings, helped by Britt
 
 var data = {
@@ -176,8 +178,14 @@ function handleNewRound(event){
     if(allImages[i].name === event.target.id){
       allImages[i].voteCount++;
       numberOfClicks++;
+      localStorage.setItem('allImages', JSON.stringify('allImages'));
     };
   };
+  // //Trying to get an alert when you click outside of the image
+  // if (event.target.id === imageDisplay && event.target.id !== leftImage && event.target.id !== centerImage && event.target.id !== rightImage){
+  //   alert('Pick an image, dummy!');
+  //   event.preventDefault();
+  // };
 
 //Make sure that the survey only runs 25 times, and load the page
   if (numberOfClicks < totalClicksAllowed) {
