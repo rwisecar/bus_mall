@@ -23,3 +23,5 @@ As a Survey Taker, I want to:
 ##README
 
 I worked closely with Lee, Adrian, Sera, and Britt on this project, particularly on getting the display count and the vote count to start adding up.
+
+Then, once I burned my code to the ground, I had a lot more help from Lee, Maelle, and Britt.
