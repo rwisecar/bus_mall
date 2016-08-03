@@ -10,8 +10,8 @@ var totalClicksAllowed = 25;
 var imageDisplay = document.getElementById('imageDisplay');
 var seeResults = document.getElementById('seeResults');
 var runAgain = document.getElementById('runAgain');
-var imageChart;
 var chartDrawn;
+var barChart;
 var allImagesArrayStringified;
 
 
@@ -25,6 +25,8 @@ var lastNumberArray = [100, 150, 250];
 //capturing names and votes
 var names = [];
 var votes = [];
+var displays = [];
+var votePercent = [];
 
 //Object constructor
 function ImageFinder(name, filePath){
@@ -60,6 +62,7 @@ function createNewObjects(){
   var wineGlass = new ImageFinder('Wine Glass', 'img/wine-glass.jpg');
 };
 
+//Conditional to check whether there is stored data, and if so, push stored data into all images array. If not, create objects from scratch.
 if (localStorage.allImagesArrayStringified) {
   console.log('Local Storage has content');
   var storedData = JSON.parse(localStorage.allImagesArrayStringified);
@@ -71,7 +74,6 @@ if (localStorage.allImagesArrayStringified) {
 }
 
 //random number generator to pick images from the array
-
 //create random numbers, while loops ensure that, if there are any comparisons with the lastNumberArray or any random numbers already created, the loop runs again.
 //Worked very closely with Maelle, Lee, and Britt on this section
 function randomNumberGenerator(){
@@ -105,15 +107,15 @@ function displayImages (){
   compareImages();
   leftImage.src = allImages[randomNumberArray[0]].filePath;
   leftImage.id = allImages[randomNumberArray[0]].name;
-  allImages[randomNumberArray[0]].displayCount ++;
+  allImages[randomNumberArray[0]].displayCount++;
 
   centerImage.src = allImages[randomNumberArray[1]].filePath;
   centerImage.id = allImages[randomNumberArray[1]].name;
-  allImages[randomNumberArray[1]].displayCount ++;
+  allImages[randomNumberArray[1]].displayCount++;
 
   rightImage.src = allImages[randomNumberArray[2]].filePath;
   centerImage.id = allImages[randomNumberArray[2]].name;
-  allImages[randomNumberArray[2]].displayCount ++;
+  allImages[randomNumberArray[2]].displayCount++;
 
   lastNumberArray = [];
   lastNumberArray.push(randomNumberArray[0], randomNumberArray[1], randomNumberArray[2]);
@@ -121,52 +123,60 @@ function displayImages (){
   seeResults.style.display = 'none';
 };
 
-//Chart Drawing-- inspired by Sam's lecture and assigned readings, helped by Britt
+//First Chart Drawing-- inspired by Sam's lecture and assigned readings, helped by Britt
 
 var data = {
   labels: names, // array of names declared above
   datasets: [
     {
-      label: 'Survey Results',
+      label: 'Vote Tally',
       data: votes, // array of votes declared above
-      backgroundColor: [
-        'bisque',
-        'darkgray',
-        'burlywood',
-        'lightblue',
-        'navy',
-        'bisque',
-        'darkgray',
-        'burlywood',
-        'lightblue',
-        'navy',
-        'bisque',
-        'darkgray',
-        'burlywood',
-        'lightblue',
-        'navy',
-        'bisque',
-        'darkgray',
-        'burlywood',
-        'lightblue',
-        'navy'
-
-      ],
-      hoverBackgroundColor: [
-        'purple',
-        'purple',
-        'purple',
-        'purple',
-        'purple'
-      ]
+      backgroundColor: 'navy',
+      hoverBackgroundColor: 'purple',
+    },
+    {
+      label: 'Display Tally',
+      data: displays,
+      backgroundColor: 'pink',
+      hoverBackgroundColor: 'purple',
     }]
 };
 
 function drawChart() {
   var ctx = document.getElementById('productChart').getContext('2d');
-  imageChart = new Chart(ctx,{
+  barChart = new Chart(ctx,{
     type: 'bar',
     data: data,
+    options: {
+      responsive: false
+    },
+    scales: [{
+      ticks: {
+        beginAtZero: true
+      }
+    }]
+  });
+  chartDrawn = true;
+}
+
+//Second Chart Drawing
+
+var data1 = {
+  labels: names, // array of names declared above
+  datasets: [
+    {
+      label: 'Percentage of Clicks per Displays',
+      data: votePercent, // array of votes declared above
+      backgroundColor: 'navy',
+      hoverBackgroundColor: 'purple',
+    }]
+};
+
+function drawChart1() {
+  var ctx = document.getElementById('percentageChart').getContext('2d');
+  barChart = new Chart(ctx,{
+    type: 'bar',
+    data: data1,
     options: {
       responsive: false
     },
@@ -184,6 +194,8 @@ function updateChartArrays() {
   for (var i = 0; i < allImages.length; i++) {
     names[i] = allImages[i].name;
     votes[i] = allImages[i].voteCount;
+    displays[i] = allImages[i].displayCount;
+    votePercent[i] = (allImages[i].voteCount / allImages[i].displayCount).toFixed(2) * 100;
   };
 };
 
@@ -191,6 +203,7 @@ function tallyVote(thisProduct) {
   for (var i = 0; i < allImages.length; i++) {
     if (thisProduct === allImages[i].name){
       allImages[i].voteCount++;
+      allImages[i].displayCount++;
       updateChartArrays();
     }
   }
@@ -235,6 +248,13 @@ displayImages();
 
 imageDisplay.addEventListener('click', handleNewRound);
 
-seeResults.addEventListener('click', drawChart);
 
-runAgain.addEventListener('click', displayImages);
+document.getElementById('seeResults').addEventListener('click', function(){
+  drawChart();
+  drawChart1();
+});
+
+// document.getElementById('runAgain').addEventListener('click', function(){
+//   displayImages;
+//   hideChart;
+// });
