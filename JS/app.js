@@ -12,6 +12,8 @@ var seeResults = document.getElementById('seeResults');
 var runAgain = document.getElementById('runAgain');
 var imageChart;
 var chartDrawn;
+var allImagesArrayStringified;
+
 
 //arrays
 //for all product images
@@ -20,10 +22,16 @@ var allImages = [];
 var randomNumberArray = [];
 //second random number array
 var lastNumberArray = [100, 150, 250];
+//array for stored JSON data
+var storedDataArray = [];
 //capturing names and votes
 var names = [];
 var votes = [];
 
+//Check local storage for existing data; if it exists, push data to a new array
+
+
+//If local storage doesn't exist,run constructor function
 //object constructor
 function ImageFinder(name, filePath){
   this.name = name;
@@ -107,6 +115,7 @@ function displayImages (){
   randomNumberArray = [];
   seeResults.style.display = 'none';
 };
+
 //Chart Drawing-- inspired by Sam's lecture and assigned readings, helped by Britt
 
 var data = {
@@ -136,6 +145,7 @@ var data = {
         'burlywood',
         'lightblue',
         'navy'
+
       ],
       hoverBackgroundColor: [
         'purple',
@@ -185,6 +195,7 @@ function hideChart() {
   document.getElementById('chartHolder').hidden = true;
 };
 
+
 // //EVENT HANDLER
 function handleNewRound(event){
   event.preventDefault();
@@ -193,8 +204,15 @@ function handleNewRound(event){
     if(allImages[i].name === event.target.id){
       allImages[i].voteCount++;
       numberOfClicks++;
+      // allImagesArrayStringified = JSON.stringify(allImages);
+      // localStorage.setItem('allImagesArrayStringified', allImagesArrayStringified);
     };
   };
+  // //Trying to get an alert when you click outside of the image
+  // if (event.target.id === imageDisplay && event.target.id !== leftImage && event.target.id !== centerImage && event.target.id !== rightImage){
+  //   alert('Pick an image, dummy!');
+  //   event.preventDefault();
+  // };
 
 //Make sure that the survey only runs 25 times, and load the page
   if (numberOfClicks < totalClicksAllowed) {
