@@ -12,6 +12,7 @@ var seeResults = document.getElementById('seeResults');
 var runAgain = document.getElementById('runAgain');
 var imageChart;
 var chartDrawn;
+var allImagesArrayStringified;
 
 //arrays
 //for all product images
@@ -20,11 +21,16 @@ var allImages = [];
 var randomNumberArray = [];
 //second random number array
 var lastNumberArray = [100, 150, 250];
+//array for stored JSON data
+var storedDataArray = [];
 //capturing names and votes
 var names = [];
 var votes = [];
 
-//IF LOCAL STORAGE EXISTS, ASSIGN DATA TO allImages array, else run constructor function
+//Check local storage for existing data; if it exists, push data to a new array
+
+
+//If local storage doesn't exist,run constructor function
 //object constructor
 function ImageFinder(name, filePath){
   this.name = name;
@@ -122,7 +128,22 @@ var data = {
         'darkgray',
         'burlywood',
         'lightblue',
-        'navy'
+        'navy',
+        'bisque',
+        'darkgray',
+        'burlywood',
+        'lightblue',
+        'navy',
+        'bisque',
+        'darkgray',
+        'burlywood',
+        'lightblue',
+        'navy',
+        'bisque',
+        'darkgray',
+        'burlywood',
+        'lightblue',
+        'navy',
       ],
       hoverBackgroundColor: [
         'purple',
@@ -172,6 +193,7 @@ function hideChart() {
   document.getElementById('chartHolder').hidden = true;
 };
 
+
 // //EVENT HANDLER
 function handleNewRound(event){
   event.preventDefault();
@@ -180,26 +202,8 @@ function handleNewRound(event){
     if(allImages[i].name === event.target.id){
       allImages[i].voteCount++;
       numberOfClicks++;
-      localStorage.setItem('bag', JSON.stringify(bag));
-      localStorage.setItem('banana', JSON.stringify(banana));
-      localStorage.setItem('bathroom', JSON.stringify(bathroom));
-      localStorage.setItem('boots', JSON.stringify(boots));
-      localStorage.setItem('breakfast', JSON.stringify(breakfast));
-      localStorage.setItem('bubblegum', JSON.stringify(bubblegum));
-      localStorage.setItem('chair', JSON.stringify(chair));
-      localStorage.setItem('cthulhu', JSON.stringify(cthulhu));
-      localStorage.setItem('dogDuck', JSON.stringify(dogDuck));
-      localStorage.setItem('dragon', JSON.stringify(dragon));
-      localStorage.setItem('pen', JSON.stringify(pen));
-      localStorage.setItem('petSweep', JSON.stringify(petSweep));
-      localStorage.setItem('scissors', JSON.stringify(scissors));
-      localStorage.setItem('sweep', JSON.stringify(sweep));
-      localStorage.setItem('shark', JSON.stringify(shark));
-      localStorage.setItem('tauntaun', JSON.stringify(tauntaun));
-      localStorage.setItem('unicorn', JSON.stringify(unicorn));
-      localStorage.setItem('usb', JSON.stringify(usb));
-      localStorage.setItem('waterCan', JSON.stringify(waterCan));
-      localStorage.setItem('wineGlass', JSON.stringify(wineGlass));
+      // allImagesArrayStringified = JSON.stringify(allImages);
+      // localStorage.setItem('allImagesArrayStringified', allImagesArrayStringified);
     };
   };
   // //Trying to get an alert when you click outside of the image
