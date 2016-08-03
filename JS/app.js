@@ -6,10 +6,10 @@ var leftImage = document.getElementById('left');
 var centerImage = document.getElementById('center');
 var rightImage = document.getElementById('right');
 var numberOfClicks = 0;
+var totalClicksAllowed = 25;
 var imageDisplay = document.getElementById('imageDisplay');
 var seeResults = document.getElementById('seeResults');
 var runAgain = document.getElementById('runAgain');
-
 
 //arrays
 //for all product images
@@ -22,9 +22,7 @@ var lastNumberArray = [100, 150, 250];
 var names = [];
 var votes = [];
 
-
 //object constructor
-
 function ImageFinder(name, filePath){
   this.name = name;
   this.filePath = filePath;
@@ -32,10 +30,9 @@ function ImageFinder(name, filePath){
   this.voteCount = 0;
   allImages.push(this);
   names.push(this.name);
-}
+};
 
 // object instances
-
 var bag = new ImageFinder('Bag', 'img/bag.jpg');
 var banana = new ImageFinder('Banana', 'img/banana.jpg');
 var bathroom = new ImageFinder('Bathroom', 'img/bathroom.jpg');
@@ -60,12 +57,11 @@ var wineGlass = new ImageFinder('Wine Glass', 'img/wine-glass.jpg');
 
 //random number generator to pick images from the array
 
-
-  //create random numbers, while loops ensure that, if there are any comparisons with the lastNumberArray or any random numbers already created, the loop runs again.
-  //Worked very closely with Maelle, Lee, and Britt on this section
+//create random numbers, while loops ensure that, if there are any comparisons with the lastNumberArray or any random numbers already created, the loop runs again.
+//Worked very closely with Maelle, Lee, and Britt on this section
 function randomNumberGenerator(){
   return Math.floor(Math.random() * allImages.length);
-}
+};
 
 function compareImages(){
   //create a random number and compare to numbers in lastNumberArray.
@@ -106,7 +102,7 @@ function displayImages (){
   allImages[randomNumberArray[2]].displayCount ++;
 
   seeResults.style.display = 'none';
-
+};
 //Chart Drawing-- inspired by Sam's lecture and assigned readings, helped by Britt
 
 var data = {
@@ -133,8 +129,8 @@ var data = {
 };
 
 function drawChart() {
-  var ctx = document.getElementById('chartHolder').getContext('2d');
-  productChart = new Chart(ctx,{
+  var ctx = document.getElementById('productChart').getContext('2d');
+  imageChart = new Chart(ctx,{
     type: 'bar',
     data: data,
     options: {
@@ -178,10 +174,8 @@ function handleNewRound(event){
     if(allImages[i].name === event.target.id){
       allImages[i].voteCount++;
       numberOfClicks++;
-    } else {
-      alert('Pick an image, dummy!');
     };
-  }
+  };
 
 //Make sure that the survey only runs 25 times, and load the page
   if (numberOfClicks < totalClicksAllowed) {
@@ -189,8 +183,8 @@ function handleNewRound(event){
     seeResults.style.display = 'none';
     updateChartArrays();
   } else if (numberOfClicks === totalClicksAllowed){
-    images.removeEventListener('click', handleNewRound);
-    seeResults.style.display = "table";
+    imageDisplay.removeEventListener('click', handleNewRound);
+    seeResults.style.display = 'table';
   };
 };
 
@@ -200,7 +194,8 @@ displayImages();
 randomNumberGenerator();
 
 
-//EVENT LISTENER
+
+//EVENT LISTENERS
 
 imageDisplay.addEventListener('click', handleNewRound);
 
