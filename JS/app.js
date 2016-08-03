@@ -84,7 +84,6 @@ function compareImages(){
   console.log(randomNumber, randomNumber1, randomNumber2);
 };
 
-
   //use the random numbers to populate html elements left, right, and center (blank img tags) with images from the array
 
 function displayImages (){
@@ -101,6 +100,9 @@ function displayImages (){
   centerImage.id = allImages[randomNumberArray[2]].name;
   allImages[randomNumberArray[2]].displayCount ++;
 
+  lastNumberArray = [];
+  lastNumberArray.push(randomNumberArray[0], randomNumberArray[1], randomNumberArray[2]);
+  randomNumberArray = [];
   seeResults.style.display = 'none';
 };
 //Chart Drawing-- inspired by Sam's lecture and assigned readings, helped by Britt
@@ -153,7 +155,7 @@ function updateChartArrays() {
   };
 };
 
-function tallyVote(thisProcudt) {
+function tallyVote(thisProduct) {
   for (var i = 0; i < allImages.length; i++) {
     if (thisProduct === allImages[i].name){
       allImages[i].voteCount++;
@@ -184,6 +186,7 @@ function handleNewRound(event){
     updateChartArrays();
   } else if (numberOfClicks === totalClicksAllowed){
     imageDisplay.removeEventListener('click', handleNewRound);
+    tallyVote();
     seeResults.style.display = 'table';
   };
 };
