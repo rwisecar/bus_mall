@@ -2,16 +2,26 @@
 
 //global variables
 
+var leftImage = document.getElementById('left');
+var centerImage = document.getElementById('center');
+var rightImage = document.getElementById('right');
+var numberOfClicks = 0;
+var imageDisplay = document.getElementById('imageDisplay');
+var seeResults = document.getElementById('seeResults');
+var runAgain = document.getElementById('runAgain');
+
+
+//arrays
+//for all product images
 var allImages = [];
+//to hold my first random number array
 var randomNumberArray = [];
+//second random number array
 var lastNumberArray = [100, 150, 250];
+//capturing names and votes
 var names = [];
 var votes = [];
-var surveyLength = 0;
-var imageDisplay = document.getElementById('imageDisplay');
-var randomNumber = 0;
-var randomNumber1 = 0;
-var randomNumber2 = 0
+
 
 //object constructor
 
@@ -21,6 +31,7 @@ function ImageFinder(name, filePath){
   this.displayCount = 0;
   this.voteCount = 0;
   allImages.push(this);
+  names.push(this.name);
 }
 
 // object instances
@@ -49,96 +60,150 @@ var wineGlass = new ImageFinder('Wine Glass', 'img/wine-glass.jpg');
 
 //random number generator to pick images from the array
 
-function displayImages (){
-  //populate first array with three impossible numbers
 
-  randomNumber = Math.floor(Math.random() * allImages.length);
-  console.log(randomNumber);
-  while (lastNumberArray.indexOf(randomNumber) !== -1){
-    randomNumber = Math.floor(Math.random() * allImages.length);
-  }
+  //create random numbers, while loops ensure that, if there are any comparisons with the lastNumberArray or any random numbers already created, the loop runs again.
+  //Worked very closely with Maelle, Lee, and Britt on this section
+function randomNumberGenerator(){
+  return Math.floor(Math.random() * allImages.length);
+}
 
-  randomNumber1 = Math.floor(Math.random() * allImages.length);
-  console.log(randomNumber1);
-  while ((randomNumber1 === randomNumber) || (lastNumberArray.indexOf(randomNumber1) !== -1)) {
-    randomNumber1 = Math.floor(Math.random() * allImages.length);
-  }
+function compareImages(){
+  //create a random number and compare to numbers in lastNumberArray.
+  var randomNumber = randomNumberGenerator();
+  while (randomNumber === lastNumberArray[0] || randomNumber === lastNumberArray[1] || randomNumber === lastNumberArray[2]){
+    randomNumber = randomNumberGenerator();
+  };
 
-  randomNumber2 = Math.floor(Math.random() * allImages.length);
-  console.log(randomNumber2);
-  while ((randomNumber2 === randomNumber1) || (randomNumber2 === randomNumber) || (lastNumberArray.indexOf(randomNumber1) !== -1)) {
-    randomNumber2 = Math.floor(Math.random() * (allImages.length));
-  }
+  var randomNumber1 = randomNumberGenerator();
+  while (randomNumber1 === randomNumber || randomNumber1 === lastNumberArray[0] || randomNumber1 === lastNumberArray[1] || randomNumber1 === lastNumberArray[2]){
+    randomNumber1 = randomNumberGenerator();
+  };
 
+  var randomNumber2 = randomNumberGenerator();
+  while (randomNumber2 === randomNumber || randomNumber2 === randomNumber1 || randomNumber2 === lastNumberArray[0] || randomNumber1 === lastNumberArray[1] || randomNumber1 === lastNumberArray[2]){
+    randomNumber2 = randomNumberGenerator();
+  };
+  //push the random numbers to an array
   randomNumberArray.push(randomNumber, randomNumber1, randomNumber2);
   console.log(randomNumber, randomNumber1, randomNumber2);
-
-  var leftImage = document.getElementById('left');
-  leftImage.src = allImages[randomNumberArray[0]].filePath;
-  allImages[randomNumberArray[0]].displayCount += 1;
-  var centerImage = document.getElementById('center');
-  centerImage.src = allImages[randomNumberArray[1]].filePath;
-  allImages[randomNumberArray[1]].displayCount += 1;
-  var rightImage = document.getElementById('right');
-  rightImage.src = allImages[randomNumberArray[2]].filePath;
-  allImages[randomNumberArray[2]].displayCount += 1;
-
-  lastNumberArray = [];
-  lastNumberArray.push[randomNumber];
-  lastNumberArray.push[randomNumber1];
-  lastNumberArray.push[randomNumber2];
-
 };
 
-displayImages();
 
-//
-// //
+  //use the random numbers to populate html elements left, right, and center (blank img tags) with images from the array
+
+function displayImages (){
+  compareImages();
+  leftImage.src = allImages[randomNumberArray[0]].filePath;
+  leftImage.id = allImages[randomNumberArray[0]].name;
+  allImages[randomNumberArray[0]].displayCount ++;
+
+  centerImage.src = allImages[randomNumberArray[1]].filePath;
+  centerImage.id = allImages[randomNumberArray[1]].name;
+  allImages[randomNumberArray[1]].displayCount ++;
+
+  rightImage.src = allImages[randomNumberArray[2]].filePath;
+  centerImage.id = allImages[randomNumberArray[2]].name;
+  allImages[randomNumberArray[2]].displayCount ++;
+
+  seeResults.style.display = 'none';
+
+//Chart Drawing-- inspired by Sam's lecture and assigned readings, helped by Britt
+
+var data = {
+  labels: names, // array of names declared above
+  datasets: [
+    {
+      label: 'Survey Results',
+      data: votes, // array of votes declared above
+      backgroundColor: [
+        'bisque',
+        'darkgray',
+        'burlywood',
+        'lightblue',
+        'navy'
+      ],
+      hoverBackgroundColor: [
+        'purple',
+        'purple',
+        'purple',
+        'purple',
+        'purple'
+      ]
+    }]
+};
+
+function drawChart() {
+  var ctx = document.getElementById('chartHolder').getContext('2d');
+  productChart = new Chart(ctx,{
+    type: 'bar',
+    data: data,
+    options: {
+      responsive: false
+    },
+    scales: [{
+      ticks: {
+        beginAtZero: true
+      }
+    }]
+  });
+  chartDrawn = true;
+}
+
+// Getting updated data for the chart
+function updateChartArrays() {
+  for (var i = 0; i < allImages.length; i++) {
+    names[i] = allImages[i].name;
+    votes[i] = allImages[i].voteCount;
+  };
+};
+
+function tallyVote(thisProcudt) {
+  for (var i = 0; i < allImages.length; i++) {
+    if (thisProduct === allImages[i].name){
+      allImages[i].voteCount++;
+      updateChartArrays();
+    }
+  }
+}
+
+function hideChart() {
+  document.getElementById('chartHolder').hidden = true;
+};
+
 // //EVENT HANDLER
 function handleNewRound(event){
   event.preventDefault();
-
-  var clickedObject = event.target;
-  console.log(clickedObject);
-  console.log(event.target.id);
-
-  displayImages();
-
-//Conditional to tally a vote for the clicked images, and alert user if they don't click on an image. Then, clear the images, run the random number generator, and display 3 new images
-
-  if (event.target.id === 'left') {
-    allImages[randomNumberArray[0]].voteCount += 1;
-    surveyLength += 1;
-  } else if (event.target.id === 'center') {
-    allImages[randomNumberArray[1]].voteCount += 1;
-    surveyLength += 1;
-  } else if (event.target.id === 'right'){
-    allImages[randomNumberArray[2]].voteCount += 1;
-    surveyLength += 1;
-  } else {
-    alert('Pick an image, dummy!');
-  };
-
-    randomNumberArray = [];
-
-//Limiting Survey to 25 rounds
-  if (surveyLength === 10) {
-    imageDisplay.removeEventListener('click', handleNewRound);
+  // cycle through each product in the allImages array and tally clicks on each image and total clicks for the survey
+  for (var i = 0; i < allImages.length; i++){
+    if(allImages[i].name === event.target.id){
+      allImages[i].voteCount++;
+      numberOfClicks++;
+    } else {
+      alert('Pick an image, dummy!');
+    };
   }
 
-
-  function updateChartArrays() {
-    for (var i = 0; i < allImages.length; i++) {
-      votes[i] = allImages[i].voteCount;
-      names[i] = allImages[i].name;
-    };
+//Make sure that the survey only runs 25 times, and load the page
+  if (numberOfClicks < totalClicksAllowed) {
+    displayImages();
+    seeResults.style.display = 'none';
+    updateChartArrays();
+  } else if (numberOfClicks === totalClicksAllowed){
+    images.removeEventListener('click', handleNewRound);
+    seeResults.style.display = "table";
   };
-  updateChartArrays();
 };
 
-//Chart Drawing
+// Call our functions on load
+
+displayImages();
+randomNumberGenerator();
 
 
 //EVENT LISTENER
 
 imageDisplay.addEventListener('click', handleNewRound);
+
+seeResults.addEventListener('click', drawChart);
+
+runAgain.addEventListener('click', hideChart, displayImages);
