@@ -22,17 +22,11 @@ var allImages = [];
 var randomNumberArray = [];
 //second random number array
 var lastNumberArray = [100, 150, 250];
-//array for stored JSON data
-var storedDataArray = [];
 //capturing names and votes
 var names = [];
 var votes = [];
 
-//Check local storage for existing data; if it exists, push data to a new array
-
-
-//If local storage doesn't exist,run constructor function
-//object constructor
+//Object constructor
 function ImageFinder(name, filePath){
   this.name = name;
   this.filePath = filePath;
@@ -42,28 +36,42 @@ function ImageFinder(name, filePath){
   names.push(this.name);
 };
 
+function createNewObjects(){
 // object instances
-var bag = new ImageFinder('Bag', 'img/bag.jpg');
-var banana = new ImageFinder('Banana', 'img/banana.jpg');
-var bathroom = new ImageFinder('Bathroom', 'img/bathroom.jpg');
-var boots = new ImageFinder('Boots', 'img/boots.jpg');
-var breakfast = new ImageFinder('Breakfast', 'img/breakfast.jpg');
-var bubblegum = new ImageFinder('Bubblegum', 'img/bubblegum.jpg');
-var chair = new ImageFinder('Chair', 'img/chair.jpg');
-var cthulhu = new ImageFinder('Cthulhu', 'img/cthulhu.jpg');
-var dogDuck = new ImageFinder('Dog Duck', 'img/dog-duck.jpg');
-var dragon = new ImageFinder('Dragon', 'img/dragon.jpg');
-var pen = new ImageFinder('Pen', 'img/pen.jpg');
-var petSweep = new ImageFinder('Pet Sweep', 'img/pet-sweep.jpg');
-var scissors = new ImageFinder('Scissors', 'img/scissors.jpg');
-var sweep = new ImageFinder('Sweep', 'img/sweep.jpg');
-var shark = new ImageFinder('Shark', 'img/shark.jpg');
-var tauntaun = new ImageFinder('Tauntaun', 'img/tauntaun.jpg');
-var unicorn = new ImageFinder('Unicorn', 'img/unicorn.jpg');
-var usb = new ImageFinder('USB', 'img/usb.gif');
-var waterCan = new ImageFinder('Water Can', 'img/water-can.jpg');
-var wineGlass = new ImageFinder('Wine Glass', 'img/wine-glass.jpg');
+  var bag = new ImageFinder('Bag', 'img/bag.jpg');
+  var banana = new ImageFinder('Banana', 'img/banana.jpg');
+  var bathroom = new ImageFinder('Bathroom', 'img/bathroom.jpg');
+  var boots = new ImageFinder('Boots', 'img/boots.jpg');
+  var breakfast = new ImageFinder('Breakfast', 'img/breakfast.jpg');
+  var bubblegum = new ImageFinder('Bubblegum', 'img/bubblegum.jpg');
+  var chair = new ImageFinder('Chair', 'img/chair.jpg');
+  var cthulhu = new ImageFinder('Cthulhu', 'img/cthulhu.jpg');
+  var dogDuck = new ImageFinder('Dog Duck', 'img/dog-duck.jpg');
+  var dragon = new ImageFinder('Dragon', 'img/dragon.jpg');
+  var pen = new ImageFinder('Pen', 'img/pen.jpg');
+  var petSweep = new ImageFinder('Pet Sweep', 'img/pet-sweep.jpg');
+  var scissors = new ImageFinder('Scissors', 'img/scissors.jpg');
+  var sweep = new ImageFinder('Sweep', 'img/sweep.jpg');
+  var shark = new ImageFinder('Shark', 'img/shark.jpg');
+  var tauntaun = new ImageFinder('Tauntaun', 'img/tauntaun.jpg');
+  var unicorn = new ImageFinder('Unicorn', 'img/unicorn.jpg');
+  var usb = new ImageFinder('USB', 'img/usb.gif');
+  var waterCan = new ImageFinder('Water Can', 'img/water-can.jpg');
+  var wineGlass = new ImageFinder('Wine Glass', 'img/wine-glass.jpg');
+};
 
+createNewObjects();
+
+//Check local storage for existing data; if it exists, push data to a new array
+function makeObjects(){
+  var storedData = JSON.parse(localStorage['allImagesArrayStringified']);
+  if (storedData){
+    console.log('HOORAY BITCHES');
+  }
+};
+
+
+makeObjects();
 
 //random number generator to pick images from the array
 
@@ -204,15 +212,11 @@ function handleNewRound(event){
     if(allImages[i].name === event.target.id){
       allImages[i].voteCount++;
       numberOfClicks++;
-      // allImagesArrayStringified = JSON.stringify(allImages);
-      // localStorage.setItem('allImagesArrayStringified', allImagesArrayStringified);
+      //store clicks as JSON data
+      allImagesArrayStringified = JSON.stringify(allImages);
+      localStorage.setItem('allImagesArrayStringified', allImagesArrayStringified);
     };
   };
-  // //Trying to get an alert when you click outside of the image
-  // if (event.target.id === imageDisplay && event.target.id !== leftImage && event.target.id !== centerImage && event.target.id !== rightImage){
-  //   alert('Pick an image, dummy!');
-  //   event.preventDefault();
-  // };
 
 //Make sure that the survey only runs 25 times, and load the page
   if (numberOfClicks < totalClicksAllowed) {
