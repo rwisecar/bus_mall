@@ -60,25 +60,22 @@ function createNewObjects(){
   var wineGlass = new ImageFinder('Wine Glass', 'img/wine-glass.jpg');
 };
 
-createNewObjects();
+if (localStorage.allImagesArrayStringified) {
+  console.log('Local Storage has content');
+  var storedData = JSON.parse(localStorage.allImagesArrayStringified);
+  allImages.push(storedData);
 
-//Check local storage for existing data; if it exists, push data to a new array
-function makeObjects(){
-  var storedData = JSON.parse(localStorage['allImagesArrayStringified']);
-  if (storedData){
-    console.log('HOORAY BITCHES');
-  }
-};
-
-
-makeObjects();
+} else {
+  console.log('Local Storage is empty');
+  createNewObjects();
+}
 
 //random number generator to pick images from the array
 
 //create random numbers, while loops ensure that, if there are any comparisons with the lastNumberArray or any random numbers already created, the loop runs again.
 //Worked very closely with Maelle, Lee, and Britt on this section
 function randomNumberGenerator(){
-  return Math.floor(Math.random() * allImages.length);
+  return Math.floor(Math.random() * 20);
 };
 
 function compareImages(){
@@ -213,8 +210,6 @@ function handleNewRound(event){
       allImages[i].voteCount++;
       numberOfClicks++;
       //store clicks as JSON data
-      allImagesArrayStringified = JSON.stringify(allImages);
-      localStorage.setItem('allImagesArrayStringified', allImagesArrayStringified);
     };
   };
 
@@ -223,6 +218,8 @@ function handleNewRound(event){
     displayImages();
     seeResults.style.display = 'none';
     updateChartArrays();
+    allImagesArrayStringified = JSON.stringify(allImages);
+    localStorage.setItem('allImagesArrayStringified', allImagesArrayStringified);
   } else if (numberOfClicks === totalClicksAllowed){
     imageDisplay.removeEventListener('click', handleNewRound);
     tallyVote();
@@ -233,9 +230,6 @@ function handleNewRound(event){
 // Call our functions on load
 
 displayImages();
-randomNumberGenerator();
-
-
 
 //EVENT LISTENERS
 
