@@ -4,11 +4,14 @@
 
 var allImages = [];
 var randomNumberArray = [];
-var lastNumberArray = [];
-var surveyLength = 0;
-var imageDisplay = document.getElementById('imageDisplay');
+var lastNumberArray = [100, 150, 250];
 var names = [];
 var votes = [];
+var surveyLength = 0;
+var imageDisplay = document.getElementById('imageDisplay');
+var randomNumber = 0;
+var randomNumber1 = 0;
+var randomNumber2 = 0
 
 //object constructor
 
@@ -46,27 +49,32 @@ var wineGlass = new ImageFinder('Wine Glass', 'img/wine-glass.jpg');
 
 //random number generator to pick images from the array
 
-function randomNumberGenerator (){
-  //Create 3 random numbers
-  var randomNumber = Math.floor(Math.random() * allImages.length);
-  var randomNumber1 = Math.floor(Math.random() * allImages.length);
-  var randomNumber2 = Math.floor(Math.random() * allImages.length);
-  //make sure no two numbers are identical. If unique, push to array. Otherwise, loop again.
-  if (randomNumber !== randomNumber1 && randomNumber !== randomNumber2
-    && randomNumber1 !== randomNumber2){
-    randomNumberArray = [];
-    randomNumberArray.push(randomNumber, randomNumber1, randomNumber2);
-  } else {
-    randomNumberGenerator();
-  };
-};
+function displayImages (){
+  //populate first array with three impossible numbers
 
-//function to fill empty HTML <img> elements with image file paths picked through the random number generator
-function displayImages(){
-  randomNumberGenerator();
+  randomNumber = Math.floor(Math.random() * allImages.length);
+  console.log(randomNumber);
+  while (lastNumberArray.indexOf(randomNumber) !== -1){
+    randomNumber = Math.floor(Math.random() * allImages.length);
+  }
+
+  randomNumber1 = Math.floor(Math.random() * allImages.length);
+  console.log(randomNumber1);
+  while ((randomNumber1 === randomNumber) || (lastNumberArray.indexOf(randomNumber1) !== -1)) {
+    randomNumber1 = Math.floor(Math.random() * allImages.length);
+  }
+
+  randomNumber2 = Math.floor(Math.random() * allImages.length);
+  console.log(randomNumber2);
+  while ((randomNumber2 === randomNumber1) || (randomNumber2 === randomNumber) || (lastNumberArray.indexOf(randomNumber1) !== -1)) {
+    randomNumber2 = Math.floor(Math.random() * (allImages.length));
+  }
+
+  randomNumberArray.push(randomNumber, randomNumber1, randomNumber2);
+  console.log(randomNumber, randomNumber1, randomNumber2);
+
   var leftImage = document.getElementById('left');
   leftImage.src = allImages[randomNumberArray[0]].filePath;
-  // console.log('this is', allImages[randomNumberArray[0]].filePath);
   allImages[randomNumberArray[0]].displayCount += 1;
   var centerImage = document.getElementById('center');
   centerImage.src = allImages[randomNumberArray[1]].filePath;
@@ -74,45 +82,27 @@ function displayImages(){
   var rightImage = document.getElementById('right');
   rightImage.src = allImages[randomNumberArray[2]].filePath;
   allImages[randomNumberArray[2]].displayCount += 1;
+
+  lastNumberArray = [];
+  lastNumberArray.push[randomNumber];
+  lastNumberArray.push[randomNumber1];
+  lastNumberArray.push[randomNumber2];
+
 };
 
-// Function to ensure that the next series of random numbers does not duplicate the previous series of random numbers
+displayImages();
 
-function reloadImages() {
-  //Clearing array that will hold previous round of random numbers
-  // lastNumberArray = [];
-
-  //Pushing last round of numbers into lastNumberArray
-  lastNumberArray.push(randomNumberArray[0]);
-  lastNumberArray.push(randomNumberArray[1]);
-  lastNumberArray.push(randomNumberArray[2]);
-
-  //Re-assigning the variables for each picture
-  var randomNumber = Math.floor(Math.random() * allImages.length);
-  var randomNumber1 = Math.floor(Math.random() * allImages.length);
-  var randomNumber2 = Math.floor(Math.random() * allImages.length);
-
-  //Use the indexOf method to determine whether there are any duplicates
-  var comparison = lastNumberArray.indexOf(randomNumber);
-  var comparison1 = lastNumberArray.indexOf(randomNumber1);
-  var comparison2 = lastNumberArray.indexOf(randomNumber2);
-  if (randomNumber !== randomNumber1 && randomNumber !== randomNumber2 && randomNumber1 !== randomNumber2 && comparison === -1 && comparison1 === -1 && comparison2 === -1){
-    randomNumberArray = [];
-    randomNumberArray.push(randomNumber, randomNumber1, randomNumber2);
-    console.log('last number array', lastNumberArray);
-    console.log('new random number array', randomNumberArray);
-  } else {
-    // reloadImages();
-  };
-};
-
-//EVENT HANDLER
+//
+// //
+// //EVENT HANDLER
 function handleNewRound(event){
   event.preventDefault();
 
   var clickedObject = event.target;
   console.log(clickedObject);
   console.log(event.target.id);
+
+  displayImages();
 
 //Conditional to tally a vote for the clicked images, and alert user if they don't click on an image. Then, clear the images, run the random number generator, and display 3 new images
 
@@ -128,8 +118,8 @@ function handleNewRound(event){
   } else {
     alert('Pick an image, dummy!');
   };
-  reloadImages();
-  displayImages();
+
+    randomNumberArray = [];
 
 //Limiting Survey to 25 rounds
   if (surveyLength === 10) {
@@ -146,13 +136,7 @@ function handleNewRound(event){
   updateChartArrays();
 };
 
-//RUN THE FUNCTIONS TO FILL THE TABLE ON LOAD
-
-randomNumberGenerator();
-displayImages();
-
 //Chart Drawing
-
 
 
 //EVENT LISTENER
