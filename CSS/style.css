@@ -2,12 +2,13 @@ header {
   text-align: center;
 }
 
-
-
+#imageDisplay {
+  position: relative;
+}
 img {
-  height: 30%;
-  padding: 0 2% 0 2%;
-  margin: 0;
-
+  
+  padding: 2% 4%;
+  position: relative;
+  top: 0;
 
 }

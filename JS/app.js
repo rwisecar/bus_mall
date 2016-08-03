@@ -1,113 +1,209 @@
 'use strict';
 
-//GLOBAL VARIABLES
+//global variables
 
-var allImages = [];
-var randomNumberArray = [];
+var leftImage = document.getElementById('left');
+var centerImage = document.getElementById('center');
+var rightImage = document.getElementById('right');
+var numberOfClicks = 0;
 var imageDisplay = document.getElementById('imageDisplay');
+var seeResults = document.getElementById('seeResults');
+var runAgain = document.getElementById('runAgain');
 
-//OBJECT CONSTRUCTOR
-function ImageFinder(name, filePath, displayCount, voteCount){
+
+//arrays
+//for all product images
+var allImages = [];
+//to hold my first random number array
+var randomNumberArray = [];
+//second random number array
+var lastNumberArray = [100, 150, 250];
+//capturing names and votes
+var names = [];
+var votes = [];
+
+
+//object constructor
+
+function ImageFinder(name, filePath){
   this.name = name;
   this.filePath = filePath;
   this.displayCount = 0;
   this.voteCount = 0;
   allImages.push(this);
+  names.push(this.name);
 }
 
-// OBJECT INSTANCES CREATING OBJECTS FOR EACH IMAGE FILE
-var bag = new ImageFinder('Bag', 'img/bag.jpg', 0, 0);
-var banana = new ImageFinder('Banana', 'img/banana.jpg', 0, 0);
-var bathroom = new ImageFinder('Bathroom', 'img/bathroom.jpg', 0, 0);
-var boots = new ImageFinder('Boots', 'img/boots.jpg', 0, 0);
-var breakfast = new ImageFinder('Breakfast', 'img/breakfast.jpg', 0, 0);
-var bubblegum = new ImageFinder('Bubblegum', 'img/bubblegum.jpg', 0, 0);
-var chair = new ImageFinder('Chair', 'img/chair.jpg', 0, 0);
-var cthulhu = new ImageFinder('Cthulhu', 'img/cthulhu.jpg', 0, 0);
-var dogDuck = new ImageFinder('Dog Duck', 'img/dog-duck.jpg', 0, 0);
-var dragon = new ImageFinder('Dragon', 'img/dragon.jpg', 0, 0);
-var pen = new ImageFinder('Pen', 'img/pen.jpg', 0, 0);
-var petSweep = new ImageFinder('Pet Sweep', 'img/pet-sweep.jpg', 0, 0);
-var scissors = new ImageFinder('Scissors', 'img/scissors.jpg', 0, 0);
-var sweep = new ImageFinder('Sweep', 'img/sweep.jpg', 0, 0);
-var shark = new ImageFinder('Shark', 'img/shark.jpg', 0, 0);
-var tauntaun = new ImageFinder('Tauntaun', 'img/tauntaun.jpg', 0, 0);
-var unicorn = new ImageFinder('Unicorn', 'img/unicorn.jpg', 0, 0);
-var usb = new ImageFinder('USB', 'img/usb.gif', 0, 0);
-var waterCan = new ImageFinder('Water Can', 'img/water-can.jpg', 0, 0);
-var wineGlass = new ImageFinder('Wine Glass', 'img/wine-glass.jpg', 0, 0);
+// object instances
+
+var bag = new ImageFinder('Bag', 'img/bag.jpg');
+var banana = new ImageFinder('Banana', 'img/banana.jpg');
+var bathroom = new ImageFinder('Bathroom', 'img/bathroom.jpg');
+var boots = new ImageFinder('Boots', 'img/boots.jpg');
+var breakfast = new ImageFinder('Breakfast', 'img/breakfast.jpg');
+var bubblegum = new ImageFinder('Bubblegum', 'img/bubblegum.jpg');
+var chair = new ImageFinder('Chair', 'img/chair.jpg');
+var cthulhu = new ImageFinder('Cthulhu', 'img/cthulhu.jpg');
+var dogDuck = new ImageFinder('Dog Duck', 'img/dog-duck.jpg');
+var dragon = new ImageFinder('Dragon', 'img/dragon.jpg');
+var pen = new ImageFinder('Pen', 'img/pen.jpg');
+var petSweep = new ImageFinder('Pet Sweep', 'img/pet-sweep.jpg');
+var scissors = new ImageFinder('Scissors', 'img/scissors.jpg');
+var sweep = new ImageFinder('Sweep', 'img/sweep.jpg');
+var shark = new ImageFinder('Shark', 'img/shark.jpg');
+var tauntaun = new ImageFinder('Tauntaun', 'img/tauntaun.jpg');
+var unicorn = new ImageFinder('Unicorn', 'img/unicorn.jpg');
+var usb = new ImageFinder('USB', 'img/usb.gif');
+var waterCan = new ImageFinder('Water Can', 'img/water-can.jpg');
+var wineGlass = new ImageFinder('Wine Glass', 'img/wine-glass.jpg');
 
 
-//RANDOM NUMBER GENERATOR
+//random number generator to pick images from the array
 
-function randomNumberGenerator (){
-  //CREATING 3 RANDOM NUMBERS
-  var randomNumber = Math.floor(Math.random() * allImages.length);
-  var randomNumber1 = Math.floor(Math.random() * allImages.length);
-  var randomNumber2 = Math.floor(Math.random() * allImages.length);
-  console.log(randomNumber);
-  console.log(randomNumber1);
-  console.log(randomNumber2);
-  //MAKING SURE NO TWO NUMBERS ARE IDENTICAL. IF IDENTICAL, LOOP AGAIN. OTHERWISE, PUSH TO ARRAY
-  if (randomNumber !== randomNumber1 && randomNumber !== randomNumber2 && randomNumber1 !== randomNumber2){
-    randomNumberArray.push(randomNumber, randomNumber1, randomNumber2);
-    // console.log('Three unique numbers');
-  } else {
-    randomNumberGenerator();
-    // console.log('Duplicate Found');
+
+  //create random numbers, while loops ensure that, if there are any comparisons with the lastNumberArray or any random numbers already created, the loop runs again.
+  //Worked very closely with Maelle, Lee, and Britt on this section
+function randomNumberGenerator(){
+  return Math.floor(Math.random() * allImages.length);
+}
+
+function compareImages(){
+  //create a random number and compare to numbers in lastNumberArray.
+  var randomNumber = randomNumberGenerator();
+  while (randomNumber === lastNumberArray[0] || randomNumber === lastNumberArray[1] || randomNumber === lastNumberArray[2]){
+    randomNumber = randomNumberGenerator();
+  };
+
+  var randomNumber1 = randomNumberGenerator();
+  while (randomNumber1 === randomNumber || randomNumber1 === lastNumberArray[0] || randomNumber1 === lastNumberArray[1] || randomNumber1 === lastNumberArray[2]){
+    randomNumber1 = randomNumberGenerator();
+  };
+
+  var randomNumber2 = randomNumberGenerator();
+  while (randomNumber2 === randomNumber || randomNumber2 === randomNumber1 || randomNumber2 === lastNumberArray[0] || randomNumber1 === lastNumberArray[1] || randomNumber1 === lastNumberArray[2]){
+    randomNumber2 = randomNumberGenerator();
+  };
+  //push the random numbers to an array
+  randomNumberArray.push(randomNumber, randomNumber1, randomNumber2);
+  console.log(randomNumber, randomNumber1, randomNumber2);
+};
+
+
+  //use the random numbers to populate html elements left, right, and center (blank img tags) with images from the array
+
+function displayImages (){
+  compareImages();
+  leftImage.src = allImages[randomNumberArray[0]].filePath;
+  leftImage.id = allImages[randomNumberArray[0]].name;
+  allImages[randomNumberArray[0]].displayCount ++;
+
+  centerImage.src = allImages[randomNumberArray[1]].filePath;
+  centerImage.id = allImages[randomNumberArray[1]].name;
+  allImages[randomNumberArray[1]].displayCount ++;
+
+  rightImage.src = allImages[randomNumberArray[2]].filePath;
+  centerImage.id = allImages[randomNumberArray[2]].name;
+  allImages[randomNumberArray[2]].displayCount ++;
+
+  seeResults.style.display = 'none';
+
+//Chart Drawing-- inspired by Sam's lecture and assigned readings, helped by Britt
+
+var data = {
+  labels: names, // array of names declared above
+  datasets: [
+    {
+      label: 'Survey Results',
+      data: votes, // array of votes declared above
+      backgroundColor: [
+        'bisque',
+        'darkgray',
+        'burlywood',
+        'lightblue',
+        'navy'
+      ],
+      hoverBackgroundColor: [
+        'purple',
+        'purple',
+        'purple',
+        'purple',
+        'purple'
+      ]
+    }]
+};
+
+function drawChart() {
+  var ctx = document.getElementById('chartHolder').getContext('2d');
+  productChart = new Chart(ctx,{
+    type: 'bar',
+    data: data,
+    options: {
+      responsive: false
+    },
+    scales: [{
+      ticks: {
+        beginAtZero: true
+      }
+    }]
+  });
+  chartDrawn = true;
+}
+
+// Getting updated data for the chart
+function updateChartArrays() {
+  for (var i = 0; i < allImages.length; i++) {
+    names[i] = allImages[i].name;
+    votes[i] = allImages[i].voteCount;
   };
 };
 
+function tallyVote(thisProcudt) {
+  for (var i = 0; i < allImages.length; i++) {
+    if (thisProduct === allImages[i].name){
+      allImages[i].voteCount++;
+      updateChartArrays();
+    }
+  }
+}
 
-
-//FUNCTION TO FILL EMPTY <img> HTML ELEMENTS WITH RANDOMLY GENERATED IMAGES FROM THE IMAGE ARRAY
-function displayImages(){
-  var leftImage = document.getElementById('left');
-  leftImage.src = allImages[randomNumberArray[0]].filePath;
-  // console.log('this is', allImages[randomNumberArray[0]].filePath);
-  allImages[randomNumberArray[0]].displayCount += 1;
-  var centerImage = document.getElementById('center');
-  centerImage.src = allImages[randomNumberArray[1]].filePath;
-  allImages[randomNumberArray[1]].displayCount += 1;
-  var rightImage = document.getElementById('right');
-  rightImage.src = allImages[randomNumberArray[2]].filePath;
-  allImages[randomNumberArray[2]].displayCount += 1;
+function hideChart() {
+  document.getElementById('chartHolder').hidden = true;
 };
 
-//RUN THE FUNCTIONS TO FILL THE TABLE ON LOAD
-randomNumberGenerator();
-displayImages();
-
-
-//EVENT HANDLER
+// //EVENT HANDLER
 function handleNewRound(event){
   event.preventDefault();
+  // cycle through each product in the allImages array and tally clicks on each image and total clicks for the survey
+  for (var i = 0; i < allImages.length; i++){
+    if(allImages[i].name === event.target.id){
+      allImages[i].voteCount++;
+      numberOfClicks++;
+    } else {
+      alert('Pick an image, dummy!');
+    };
+  }
 
-  randomNumberGenerator();
-  displayImages();
-
-  var clickedObject = event.target;
-  console.log(clickedObject);
-  console.log(event.target.id);
-
-//Conditional to tally a vote for the clicked images, and alert user if they don't click on an image. Then, clear the images, run the random number generator, and display 3 new images
-
-  if (event.target.id === 'left') {
-    allImages[randomNumberArray[0]].voteCount += 1;
-    console.log(allImages[randomNumberArray[0]].name + ' has ' + allImages[randomNumberArray[0]].voteCount + ' votes ');
-  } else if (event.target.id === 'center') {
-    allImages[randomNumberArray[1]].voteCount += 1;
-    console.log(allImages[randomNumberArray[1]].name + ' has ' + allImages[randomNumberArray[1]].voteCount + ' votes ');
-  } else if (event.target.id === 'right'){
-    allImages[randomNumberArray[2]].voteCount += 1;
-    console.log(allImages[randomNumberArray[2]].name + ' has  ' + allImages[randomNumberArray[2]].voteCount + ' votes ');
-  } else {
-    alert('Pick an image, dummy!');
+//Make sure that the survey only runs 25 times, and load the page
+  if (numberOfClicks < totalClicksAllowed) {
+    displayImages();
+    seeResults.style.display = 'none';
+    updateChartArrays();
+  } else if (numberOfClicks === totalClicksAllowed){
+    images.removeEventListener('click', handleNewRound);
+    seeResults.style.display = "table";
   };
 };
 
+// Call our functions on load
+
+displayImages();
+randomNumberGenerator();
 
 
 //EVENT LISTENER
 
 imageDisplay.addEventListener('click', handleNewRound);
+
+seeResults.addEventListener('click', drawChart);
+
+runAgain.addEventListener('click', hideChart, displayImages);
