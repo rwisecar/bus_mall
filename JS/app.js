@@ -10,6 +10,8 @@ var totalClicksAllowed = 25;
 var imageDisplay = document.getElementById('imageDisplay');
 var seeResults = document.getElementById('seeResults');
 var runAgain = document.getElementById('runAgain');
+var imageChart;
+var chartDrawn;
 
 //arrays
 //for all product images
@@ -178,7 +180,26 @@ function handleNewRound(event){
     if(allImages[i].name === event.target.id){
       allImages[i].voteCount++;
       numberOfClicks++;
-      localStorage.setItem('allImages', JSON.stringify('allImages'));
+      localStorage.setItem('bag', JSON.stringify(bag));
+      localStorage.setItem('banana', JSON.stringify(banana));
+      localStorage.setItem('bathroom', JSON.stringify(bathroom));
+      localStorage.setItem('boots', JSON.stringify(boots));
+      localStorage.setItem('breakfast', JSON.stringify(breakfast));
+      localStorage.setItem('bubblegum', JSON.stringify(bubblegum));
+      localStorage.setItem('chair', JSON.stringify(chair));
+      localStorage.setItem('cthulhu', JSON.stringify(cthulhu));
+      localStorage.setItem('dogDuck', JSON.stringify(dogDuck));
+      localStorage.setItem('dragon', JSON.stringify(dragon));
+      localStorage.setItem('pen', JSON.stringify(pen));
+      localStorage.setItem('petSweep', JSON.stringify(petSweep));
+      localStorage.setItem('scissors', JSON.stringify(scissors));
+      localStorage.setItem('sweep', JSON.stringify(sweep));
+      localStorage.setItem('shark', JSON.stringify(shark));
+      localStorage.setItem('tauntaun', JSON.stringify(tauntaun));
+      localStorage.setItem('unicorn', JSON.stringify(unicorn));
+      localStorage.setItem('usb', JSON.stringify(usb));
+      localStorage.setItem('waterCan', JSON.stringify(waterCan));
+      localStorage.setItem('wineGlass', JSON.stringify(wineGlass));
     };
   };
   // //Trying to get an alert when you click outside of the image
