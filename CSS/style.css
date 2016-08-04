@@ -1,3 +1,17 @@
+* {
+  box-sizing: border-box;
+}
+/* body wrap to center content */
+.wrap {
+  max-width: 920px;
+  margin: 0 auto;
+}
+
+body {
+  position: relative;
+  backg: #E0FFFF;
+}
+
 header {
   text-align: center;
 }
@@ -5,13 +19,28 @@ header {
 #imageDisplay {
   position: relative;
 }
+
 img {
-
-
-  padding: 2% 4%;
-  margin: 0;
   position: relative;
-  top: 0;
-  outline: 1px dashed orange;
+  float: left;
+  margin: 0 auto;
+  padding-left: 80px;
 
+}
+
+#buttonContainer {
+  position: relative;
+  margin-top: 300px;
+  display: block;
+}
+
+button {
+  clear: both;
+  margin-top: 150px;
+  padding: 1% 2%;
+  background-color: #59BD98;
+  color: #E0FFFF;
+  font-family: "Futura", sans-serif;
+  font-size: 16px;
+  border: none;
 }

@@ -131,13 +131,13 @@ var data = {
     {
       label: 'Vote Tally',
       data: votes, // array of votes declared above
-      backgroundColor: 'navy',
+      backgroundColor: '#CD5C5C',
       hoverBackgroundColor: 'purple',
     },
     {
       label: 'Display Tally',
       data: displays,
-      backgroundColor: 'pink',
+      backgroundColor: '#59BD98',
       hoverBackgroundColor: 'purple',
     }]
 };
@@ -167,7 +167,28 @@ var data1 = {
     {
       label: 'Percentage of Clicks per Displays',
       data: votePercent, // array of votes declared above
-      backgroundColor: 'navy',
+      backgroundColor: [
+        'bisque',
+        'darkgray',
+        'burlywood',
+        'lightblue',
+        'navy',
+        'mint',
+        'darkgray',
+        'burlywood',
+        'lightblue',
+        'navy',
+        'bisque',
+        'darkgray',
+        'burlywood',
+        'lightblue',
+        'navy',
+        'bisque',
+        'darkgray',
+        'burlywood',
+        'lightblue',
+        'navy'
+      ],
       hoverBackgroundColor: 'purple',
     }]
 };
@@ -175,7 +196,7 @@ var data1 = {
 function drawChart1() {
   var ctx = document.getElementById('percentageChart').getContext('2d');
   barChart = new Chart(ctx,{
-    type: 'bar',
+    type: 'polarArea',
     data: data1,
     options: {
       responsive: false
@@ -189,7 +210,7 @@ function drawChart1() {
   chartDrawn = true;
 }
 
-// Getting updated data for the chart
+// Getting updated data for the charts
 function updateChartArrays() {
   for (var i = 0; i < allImages.length; i++) {
     names[i] = allImages[i].name;
@@ -199,6 +220,7 @@ function updateChartArrays() {
   };
 };
 
+// Tallying votes and display counts for the charts
 function tallyVote(thisProduct) {
   for (var i = 0; i < allImages.length; i++) {
     if (thisProduct === allImages[i].name){
@@ -209,9 +231,10 @@ function tallyVote(thisProduct) {
   }
 }
 //
-// function hideChart() {
-//   document.getElementById('chartHolder').hidden = true;
-// };
+function hideChart() {
+  document.getElementById('chartHolder').hidden = true;
+  document.getElementById('percentageChartHolder').hidden = true;
+};
 
 
 // //EVENT HANDLER
@@ -254,7 +277,7 @@ document.getElementById('seeResults').addEventListener('click', function(){
   drawChart1();
 });
 
-// document.getElementById('runAgain').addEventListener('click', function(){
-//   displayImages;
-//   hideChart;
-// });
+document.getElementById('runAgain').addEventListener('click', function(){
+  hideChart();
+  displayImages();
+});
